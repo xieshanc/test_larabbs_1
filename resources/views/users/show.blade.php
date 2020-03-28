@@ -11,10 +11,10 @@
 
       <div class="card-body">
         <h5><strong>个人简介</strong></h5>
-        <p>个人简介</p>
+        <p>{{ $user->introduction }}</p>
         <hr>
         <h5><strong>注册于</strong></h5>
-        <p>1911\11\11</p>
+        <p>{{ $user->created_at }}</p>
       </div>
     </div>
   </div>
