@@ -3,12 +3,13 @@
 namespace App\Handlers;
 
 use Illuminate\Support\Str;
+use Image;
 
 class ImageUploadHandler
 {
-    protected $allowed_ext = ['jpg', 'jpeg', 'png', 'git'];
+    protected $allowed_ext = ['jpg', 'jpeg', 'png', 'gif'];
 
-    public function save($file, $folder, $file_prefix)
+    public function save($file, $folder, $file_prefix, $max_width = false)
     {
         $folder_name = "uploads/images/{$folder}/" . date('Ym', time());
 
@@ -20,10 +21,26 @@ class ImageUploadHandler
 
         if (!in_array($extension, $this->allowed_ext)) return false;
 
-        $file->move($upload_path, $filename);
+        $res = $file->move($upload_path, $filename);
+
+        if ($max_width && $extension != 'git') {
+            $this->reduceSize($upload_path . '/' . $filename, $max_width);
+        }
 
         return [
             'path' => config('app.url') . "/{$folder_name}/{$filename}",
         ];
+    }
+
+    public function reduceSize($file_path, $max_width)
+    {
+        $image = Image::make($file_path);
+
+        $image->resize($max_width, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        $image->save();
     }
 }
