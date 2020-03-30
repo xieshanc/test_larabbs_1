@@ -18,6 +18,8 @@ class TopicObserver
 
     public function saved(Topic $topic)
     {
-        dispatch(new TranslateSlug($topic));
+        if (!$topic->slug) {
+            dispatch(new TranslateSlug($topic));
+        }
     }
 }
