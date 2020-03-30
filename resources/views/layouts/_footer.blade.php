@@ -5,7 +5,7 @@
     </p>
 
     <p class="float-right">
-      <a href="mailto:exy2000a@163.com">联系我们</a>
+      <a href="mailto:{{ setting('contact_email') }}">联系我们</a>
     </p>
   </div>
 </footer>

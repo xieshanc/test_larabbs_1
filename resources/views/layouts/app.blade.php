@@ -9,8 +9,10 @@
   {{-- CSRF Token --}}
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>@yield('title', 'LaraBBS') - 噗</title>
-  <meta name="description" content="@yield('description', 'LaraBBS')">
+  <title>@yield('title', 'LaraBBS') - {{ setting('site_name', '进阶') }}</title>
+  <meta name="description" content="@yield('description', setting('seo_description'))">
+  <meta name="keyword" content="@yield('keyword', setting('seo_keyword'))">
+
 
   <!-- Style -->
   <link rel="stylesheet" href="{{ mix('css/app.css') }}">
