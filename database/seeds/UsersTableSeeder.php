@@ -23,5 +23,10 @@ class UsersTableSeeder extends Seeder
         $user1->email = 'exy2000a@163.com';
         $user1->avatar = 'http://larabbs1.local/uploads/images/avatars/202003/1_1585467489_oDDaVkRClX.jpg';
         $user1->save();
+
+        $user1->assignRole('Founder');
+
+        $user2 = User::find(2);
+        $user2->assignRole('Maintainer');
     }
 }
