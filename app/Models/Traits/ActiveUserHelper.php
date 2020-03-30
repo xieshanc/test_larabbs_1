@@ -15,7 +15,7 @@ trait ActiveUserHelper
 
     protected $topic_weight = 4;
     protected $reply_weight = 1;
-    protected $pass_days = 7;
+    protected $pass_days = 30;
     protected $user_number = 6;
 
     protected $cache_key = 'larabbs_active_users';
@@ -79,10 +79,10 @@ trait ActiveUserHelper
                     ->get();
         foreach ($reply_users as $value) {
             $reply_score = $value['reply_count'] * $this->reply_count;
-            if (isset($this->users[$value['user_id']])) {
-                $this->users['user_id']['score'] += $reply_score;
+            if (isset($this->users[$value->user_id])) {
+                $this->users[$value->user_id]['score'] += $reply_score;
             } else {
-                $this->users['user_id']['score'] = $reply_score;
+                $this->users[$value->user_id]['score'] = $reply_score;
             }
         }
     }
