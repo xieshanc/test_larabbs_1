@@ -10,21 +10,13 @@ class ReplyRequest extends Request
         {
             // CREATE
             case 'POST':
-            {
-                return [
-                    // CREATE ROLES
-                ];
-            }
-            // UPDATE
             case 'PUT':
             case 'PATCH':
             {
                 return [
-                    // UPDATE ROLES
+                    'content' => 'required',
                 ];
             }
-            case 'GET':
-            case 'DELETE':
             default:
             {
                 return [];
