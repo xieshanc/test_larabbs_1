@@ -6,21 +6,15 @@ class ReplyRequest extends Request
 {
     public function rules()
     {
-        switch($this->method())
-        {
-            // CREATE
+        switch($this->method()) {
             case 'POST':
             case 'PUT':
-            case 'PATCH':
-            {
                 return [
                     'content' => 'required',
                 ];
-            }
+                break;
             default:
-            {
                 return [];
-            }
         }
     }
 

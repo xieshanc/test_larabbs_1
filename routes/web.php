@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/', 'TopicsController@index')->name('root');
 
 // 用户身份验证相关
