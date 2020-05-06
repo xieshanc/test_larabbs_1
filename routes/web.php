@@ -11,6 +11,8 @@
 |
 */
 
+
+
 Route::get('/', 'TopicsController@index')->name('root');
 
 // 用户身份验证相关
@@ -49,11 +51,14 @@ Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show
 
 Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
 
-
-Route::get('test', 'TopicsController@test')->name('test');
+Route::get('/test', 'PagesController@test')->name('test');
 
 Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);
 
 Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
 
 Route::get('permission-denied', 'PagesController@permissionDenied')->name('permission-denied');
+
+
+
+

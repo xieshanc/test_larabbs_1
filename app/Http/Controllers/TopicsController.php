@@ -95,9 +95,4 @@ class TopicsController extends Controller
 
     }
 
-    public function test()
-    {
-        $topic = Topic::find(4);
-        var_dump(route('topics.show', array_merge([$this->id, $this->slug], $params)));
-    }
 }
