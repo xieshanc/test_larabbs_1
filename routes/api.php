@@ -26,6 +26,8 @@ Route::prefix('v1')
         ->group(function () {
             // 生成图片验证码
             Route::post('captchas', 'CaptchasController@store')->name('captchas.store');
+            // 显示图片验证码
+            Route::get('captchas', 'CaptchasController@show')->name('captchas.show');
             // 发送短信
             Route::post('verificationCodes', 'VerificationCodesController@store')->name('verificationCodes.store');
             // 用户注册

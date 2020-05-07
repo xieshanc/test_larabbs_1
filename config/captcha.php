@@ -18,7 +18,7 @@ return [
     ],
 
     'flat' => [
-        'length' => 1,
+        'length' => 2,
         'width' => 160,
         'height' => 46,
         'quality' => 90,
