@@ -23,8 +23,6 @@ class PagesController extends Controller
 
     public function test()
     {
-        echo '<pre>';
-        var_dump($request->phone);
-        exit;
+
     }
 }

@@ -18,7 +18,10 @@ use Illuminate\Http\Request;
 // });
 
 Route::prefix('v1')->name('api.v1.')->namespace('Api')->group(function () {
+    // 发送短信
     Route::post('verificationCodes', 'VerificationCodesController@store')->name('verificationCodes.store');
+    // 用户注册
+    Route::post('users', 'UsersController@store')->name('users.store');
 });
 
 
