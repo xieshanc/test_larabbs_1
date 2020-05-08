@@ -23,8 +23,17 @@ class PagesController extends Controller
 
     public function test()
     {
-        echo '<pre>';
-        var_dump('a' == 'a');
-        exit;
+        $code = '011EGleg1gmiTt0YVPdg1vWFeg1EGle6';
+        $driver = Socialite::driver('weixin');
+        $response = $driver->getAccessTokenResponse($code);
+        $driver->setOpenId($response['openid']);
+        $oauthUser = $driver->userFromToken($response['access_token']);
+
+        // 第三步：通过 access_token 和 openid 取用户信息
+        $accessToken = '33_toTr2MGjkO0Skcw7gWYCwhXqRR_rFxhMpUD4-7QD627svgyR9hty202l2OTcCg14WbDeRwMBfgG9jcnDKx3AfA';
+        $openID = 'okUYy0YCAFAcyc9UbMvCMD8ZpdvM';
+        $driver = Socialite::driver('weixin');
+        $driver->setOpenId($openID);
+        $oauthUser = $driver->userFromToken($accessToken);
     }
 }
