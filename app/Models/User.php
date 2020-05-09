@@ -33,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'weixin_openid', 'weixin_unionid'
     ];
 
     /**
@@ -43,6 +43,12 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+    ];
+
+    protected $appends = [
+        'bound_phone',
+        'bound_email',
+        'bound_wechat',
     ];
 
     public function isAuthorOf($model)
@@ -76,6 +82,21 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
         $this->notification_count = 0;
         $this->save();
         $this->unreadNotifications->markAsRead();
+    }
+
+    public function getBoundPhoneAttribute()
+    {
+        return $this->phone ? true : false;
+    }
+
+    public function getBoundEmailAttribute()
+    {
+        return $this->email ? true : false;
+    }
+
+    public function getBoundWechatAttribute()
+    {
+        return ($this->weixin_unionid || $this->weixin_openid) ? true : false;
     }
 
     public function setPasswordAttribute($value)
