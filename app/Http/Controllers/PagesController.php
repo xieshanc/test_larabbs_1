@@ -23,6 +23,14 @@ class PagesController extends Controller
 
     public function test()
     {
+        $res = auth('api');
+        echo '<pre>';
+        var_dump($res);
+        exit;
+    }
+
+    public function testLogin()
+    {
         $driver = Socialite::driver('weixin');
         $code = '011EGleg1gmiTt0YVPdg1vWFeg1EGle6';
         $response = $driver->getAccessTokenResponse($code);
