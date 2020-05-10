@@ -47,15 +47,25 @@ Route::prefix('v1')
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         // 分类列表
         Route::get('categories', 'CategoriesController@index')->name('categories.index');
+        // 话题列表、详情
+        Route::resource('topics', 'TopicsController')->only([
+            'index', 'show'
+        ]);
 
         // 要求登录
         Route::middleware('auth:api')->group(function () {
             // 当前登录用户
             Route::get('user', 'UsersController@me')->name('user.show');
+            // 用户列表
+            Route::get('users', 'UsersController@index')->name('users.index');
             // 编辑登录用户信息
             Route::patch('user', 'UsersController@update')->name('user.update');
             // 上传图片
             Route::post('images', 'ImagesController@store')->name('images.store');
+            // 发布、修改、删除话题
+            Route::resource('topics', 'TopicsController')->only([
+                'store', 'update', 'destroy'
+            ]);
         });
     });
 
