@@ -45,6 +45,8 @@ Route::prefix('v1')
         // 游客可以访问的接口
         // 某个用户的详情
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
+        // 分类列表
+        Route::get('categories', 'CategoriesController@index')->name('categories.index');
 
         // 要求登录
         Route::middleware('auth:api')->group(function () {
