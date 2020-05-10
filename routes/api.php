@@ -19,41 +19,44 @@ use Illuminate\Http\Request;
 
 Route::prefix('v1')
     ->namespace('Api')
-    ->name('api.v1.')
-    ->group(function () {
+    ->name('api.v1.')->group(function () {
 
-        Route::middleware('throttle:' . config('api.rate_limits.sign'))
-            ->group(function () {
-                // 生成图片验证码
-                Route::post('captchas', 'CaptchasController@store')->name('captchas.store');
-                // 显示图片验证码
-                Route::get('captchas', 'CaptchasController@show')->name('captchas.show');
-                // 发送短信
-                Route::post('verificationCodes', 'VerificationCodesController@store')->name('verificationCodes.store');
-                // 用户注册
-                Route::post('users', 'UsersController@store')->name('users.store');
-                // 第三方登录
-                Route::post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')->where('social_type', 'weixin')->name('socials.authorizations.store');
-                // 登录
-                Route::post('authorizations', 'AuthorizationsController@store')->name('api.authorizations.store');
-                // 刷新 token
-                Route::put('authorizations/current', 'AuthorizationsController@update')->name('authorizations.update');
-                // 删除 token
-                Route::delete('authorizations/current', 'AuthorizationsController@destroy')->name('authorizations.destroy');
-            });
 
-        Route::middleware('throttle:' . config('api.rate_limits.access'))
-            ->group(function () {
-                // 游客可以访问的接口
-                // 某个用户的详情
-                Route::get('users/{user}', 'UsersController@show')->name('users.show');
+    Route::middleware('throttle:' . config('api.rate_limits.sign'))->group(function () {
+        // 生成图片验证码
+        Route::post('captchas', 'CaptchasController@store')->name('captchas.store');
+        // 显示图片验证码
+        Route::get('captchas', 'CaptchasController@show')->name('captchas.show');
+        // 发送短信
+        Route::post('verificationCodes', 'VerificationCodesController@store')->name('verificationCodes.store');
+        // 用户注册
+        Route::post('users', 'UsersController@store')->name('users.store');
+        // 第三方登录
+        Route::post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')->where('social_type', 'weixin')->name('socials.authorizations.store');
+        // 登录
+        Route::post('authorizations', 'AuthorizationsController@store')->name('api.authorizations.store');
+        // 刷新 token
+        Route::put('authorizations/current', 'AuthorizationsController@update')->name('authorizations.update');
+        // 删除 token
+        Route::delete('authorizations/current', 'AuthorizationsController@destroy')->name('authorizations.destroy');
+    });
 
-                // 要求登录
-                Route::middleware('auth:api')->group(function () {
-                    // 当前登录用户
-                    Route::get('user', 'UsersController@me')->name('user.show');
-                });
+    Route::middleware('throttle:' . config('api.rate_limits.access'))->group(function () {
+        // 游客可以访问的接口
+        // 某个用户的详情
+        Route::get('users/{user}', 'UsersController@show')->name('users.show');
+
+        // 要求登录
+        Route::middleware('auth:api')->group(function () {
+            // 当前登录用户
+            Route::get('user', 'UsersController@me')->name('user.show');
+            // 编辑登录用户信息
+            Route::patch('user', 'UsersController@update')->name('user.update');
+            // 上传图片
+            Route::post('images', 'ImagesController@store')->name('images.store');
         });
+    });
+
 
 });
 

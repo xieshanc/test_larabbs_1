@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Auth;
 use App\Models\User;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Resources\UserResource;
@@ -43,5 +44,22 @@ class UsersController extends Controller
     {
         // return new UserResource($request->user());
         return (new UserResource(Auth::user()))->showSensitiveFields();
+    }
+
+    public function update(UserRequest $request)
+    {
+        $user = $request->user();
+
+        $attributes = $request->only(['name', 'email', 'introduction']);
+
+        if ($request->avatar_image_id) {
+            $image = Image::find($request->avatar_image_id);
+
+            $attributes['avatar'] = $image->path;
+        }
+
+        $user->update($attributes);
+
+        return (new UserResource($user))->showSensitiveFields();
     }
 }
