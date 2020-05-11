@@ -54,9 +54,12 @@ Route::prefix('v1')
         // ]);
         Route::get('topics', 'TopicsController@index')->name('topics.index');
         Route::get('topics/{topic}', 'TopicsController@show')->name('topics.show');
-
         // 某个用户发布的帖子列表
         Route::get('users/{user}/topics', 'TopicsController@userIndex')->name('users.topics.index');
+        // 帖子回复列表
+        Route::get('topics/{topic}/replies', 'RepliesController@index')->name('topics.replies.index');
+        // 某个用户的回复列表
+        Route::get('users/{user}/replies', 'RepliesController@userIndex')->name('users.replies.index');
 
         // 要求登录
         Route::middleware('auth:api')->group(function () {
