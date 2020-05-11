@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use Spatie\QueryBuilder\QueryBuilder;
+
 class Topic extends Model
 {
+    use Traits\QueryBuilderBindable;
+
+    // protected $queryClass = \App\Http\Queries\TopicQueryTwo::class;
+
     protected $fillable = ['title', 'body', 'category_id', 'excerpt', 'slug'];
 
     public function link($params = [])
@@ -50,12 +56,19 @@ class Topic extends Model
 
     public function updateReplyCount()
     {
-        // $this->reply_count = $this->replies()->count();
-        // $this->save();
-
         $count = $this->replies()->count();
         \DB::table('topics')->where('id', $this->id)->update(['reply_count' => $count]);
     }
 
+    // public function resolveRouteBinding($value)
+    // {
+    //     echo '<pre>';
+    //     var_dump($this->getRouteKeyName());
+    //     exit;
+    //     return QueryBuilder::for(self::class)
+    //         ->allowedIncludes('user', 'category')
+    //         ->where($this->getRouteKeyName(), $value)
+    //         ->first();
+    // }
 
 }

@@ -48,9 +48,12 @@ Route::prefix('v1')
         // 分类列表
         Route::get('categories', 'CategoriesController@index')->name('categories.index');
         // 话题列表、详情
-        Route::resource('topics', 'TopicsController')->only([
-            'index', 'show'
-        ]);
+        // Route::resource('topics', 'TopicsController')->only([
+        //     'index', 'show'
+        // ]);
+        Route::get('topics', 'TopicsController@index')->name('topics.index');
+        Route::get('topics/{topic}', 'TopicsController@show')->name('topics.show');
+
         // 某个用户发布的帖子列表
         Route::get('users/{user}/topics', 'TopicsController@userIndex')->name('users.topics.index');
 
