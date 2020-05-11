@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
-
     protected $showSensitiveFields = false;
 
     public function toArray($request)

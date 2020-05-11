@@ -45,6 +45,7 @@ Route::prefix('v1')
         // 游客可以访问的接口
         // 某个用户的详情
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
+
         // 分类列表
         Route::get('categories', 'CategoriesController@index')->name('categories.index');
         // 话题列表、详情
@@ -63,6 +64,8 @@ Route::prefix('v1')
             Route::get('user', 'UsersController@me')->name('user.show');
             // 用户列表
             Route::get('users', 'UsersController@index')->name('users.index');
+            Route::get('users2', 'UsersController@index2')->name('users.index2');
+
             // 编辑登录用户信息
             Route::patch('user', 'UsersController@update')->name('user.update');
             // 上传图片

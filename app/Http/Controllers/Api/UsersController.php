@@ -8,14 +8,26 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\UserCollection;
 use Illuminate\Auth\AuthenticationException;
 
 class UsersController extends Controller
 {
     public function index()
     {
+        return new UserCollection(User::paginate());
+        // return UserResource::collection(User::paginate());
+
+        // return UserResource::collection(User::all());
+
+        // return User::all();
+        // return new UserResource(User::first());
         // return new UserResource(User::all());
-        return UserResource::collection(User::paginate());
+    }
+
+    public function index2()
+    {
+        return (new UserCollection(User::paginate()))->showSensitiveFields();
     }
 
     public function store(UserRequest $request)
