@@ -21,7 +21,7 @@ Route::prefix('v1')
     ->namespace('Api')
     ->name('api.v1.')->group(function () {
 
-
+    // 用户认证相关（访问频率低一些）
     Route::middleware('throttle:' . config('api.rate_limits.sign'))->group(function () {
         // 生成图片验证码
         Route::post('captchas', 'CaptchasController@store')->name('captchas.store');
@@ -41,11 +41,11 @@ Route::prefix('v1')
         Route::delete('authorizations/current', 'AuthorizationsController@destroy')->name('authorizations.destroy');
     });
 
+    // 一般内容
     Route::middleware('throttle:' . config('api.rate_limits.access'))->group(function () {
         // 游客可以访问的接口
         // 某个用户的详情
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
-
         // 分类列表
         Route::get('categories', 'CategoriesController@index')->name('categories.index');
         // 话题列表、详情
@@ -88,6 +88,8 @@ Route::prefix('v1')
             Route::get('notifications/stats', 'NotificationsController@stats')->name('notifications.stats');
             // 标记消息已读
             Route::patch('user/read/notifications', 'NotificationsController@read')->name('user.notifications.read');
+            // 取当前登录用户权限
+            Route::get('user/permissions', 'PermissionsController@index')->name('user.permissions.index');
         });
     });
 
