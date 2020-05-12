@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\VerificationCodeRequest;
 
@@ -23,10 +25,9 @@ class PagesController extends Controller
 
     public function test()
     {
-        $res = auth('api');
-        echo '<pre>';
-        var_dump($res);
-        exit;
+        $user = new User;
+
+        $res = $user->calculateAndCacheActiveUsers();
     }
 
     public function testLogin()

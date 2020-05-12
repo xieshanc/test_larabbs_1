@@ -16,7 +16,7 @@ trait ActiveUserHelper
     protected $topic_weight = 4;
     protected $reply_weight = 1;
     protected $pass_days = 30;
-    protected $user_number = 6;
+    protected $user_number = 8;
 
     protected $cache_key = 'larabbs_active_users';
     protected $cache_expire_in_seconds = 65 * 60;
