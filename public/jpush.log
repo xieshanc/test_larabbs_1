@@ -1,0 +1,2 @@
+Send POST https://api.jpush.cn/v3/push, body:{"platform":"all","audience":{"registration_id":["1"]},"notification":{"alert":"f3"},"options":{"sendno":1493035434,"apns_production":false}}, times:1
+Send POST https://api.jpush.cn/v3/push, body:{"platform":"all","audience":{"registration_id":["1"]},"notification":{"alert":"f3"},"options":{"sendno":685331399,"apns_production":false}}, times:1
