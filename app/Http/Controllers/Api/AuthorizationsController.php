@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Api\SocialAuthorizationRequest;
 use App\Http\Requests\Api\AuthorizationRequest;
 use Illuminate\Auth\AuthenticationException;
+use Psr\Http\Message\ServerRequestInterface;
+use League\OAuth2\Server\AuthorizationServer;
+use Zend\Diactoros\Response as Psr7Response;
+use League\OAuth2\Server\Exception\OAuthServerException;
 
 class AuthorizationsController extends Controller
 {
@@ -56,26 +60,16 @@ class AuthorizationsController extends Controller
         return $this->respondWithToken($token)->setStatusCode(201);
     }
 
-    public function store(AuthorizationRequest $request)
+
+    // 改了后是啥？猜是把 oauth/token 那里面的复制过来了
+    // respondToAccessTokenRequest 方法验证 client / scope / 账号密码
+    public function store(AuthorizationRequest $originRequest, AuthorizationServer $server, ServerRequestInterface $serverRequest)
     {
-        $username = $request->username;
-
-        filter_var($username, FILTER_VALIDATE_EMAIL) ?
-            $credentials['email'] = $username : $credentials['phone'] = $username;
-
-        $credentials['password'] = $request->password;
-
-        if (!$token = auth('api')->attempt($credentials)) {
-            // throw new AuthenticationException('用户名或密码错误');
-            throw new AuthenticationException(trans('auth.failed'));
+        try {
+            return $server->respondToAccessTokenRequest($serverRequest, new Psr7Response)->withStatus(201);
+        } catch (OAuthServerException $e) {
+            throw new AuthenticationException($e->getMessage());
         }
-
-        // return response()->json([
-        //     'access_token' => $token,
-        //     'token_type'   => 'Bearer',
-        //     'expires_in'   => \Auth::guard('api')->factory()->getTTL() * 60,
-        // ])->setStatusCode(201);
-        return $this->respondWithToken($token)->setStatusCode(201);
     }
 
     protected function respondWithToken($token)
@@ -87,15 +81,28 @@ class AuthorizationsController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(AuthorizationServer $server, ServerRequestInterface $serverRequest)
     {
-        $token = auth('api')->refresh();
-        return $this->respondWithToken($token);
+        try {
+            return $server->respondToAccessTokenRequest($serverRequest, new Psr7Response);
+        } catch (OAuthServerException $e) {
+            throw new AuthenticationException($e->getMessage());
+        }
     }
+
+    // public function destroy()
+    // {
+    //     $res = auth('api')->logout();
+    //     return response(null, 204);
+    // }
 
     public function destroy()
     {
-        $res = auth('api')->logout();
-        return response(null, 204);
+        if (auth('api')->check()) {
+            auth('api')->user()->token()->revoke();
+            return response(null, 204);
+        } else {
+            throw new AuthenticationException('The token is invalidddd.');
+        }
     }
 }
