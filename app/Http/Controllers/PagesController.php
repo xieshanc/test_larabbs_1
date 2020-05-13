@@ -23,11 +23,9 @@ class PagesController extends Controller
         return view('pages.permission_denied');
     }
 
-    public function test()
+    public function test(\Tests\Feature\ExampleTest $test)
     {
-        $user = new User;
-
-        $res = $user->calculateAndCacheActiveUsers();
+        $test->testBasicTest();
     }
 
     public function testLogin()

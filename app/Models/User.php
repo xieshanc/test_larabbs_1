@@ -42,7 +42,7 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'email_verified_at' => 'datetimeddd',
     ];
 
     protected $appends = [
